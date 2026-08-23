@@ -15,6 +15,7 @@ function validateEndpoint(url) {
   if (!url) throw new Error("GAS Web App URL が未設定です。js/config/appConfig.js を確認してください。");
   const parsed = new URL(url, window.location.href);
   if (parsed.protocol !== "https:") throw new Error("GAS Web App URL は https:// を使用してください。");
+  if (!parsed.pathname.endsWith("/exec")) throw new Error("GAS Web App URL は /exec で終わるデプロイURLを指定してください。");
   return parsed.toString();
 }
 
@@ -47,6 +48,7 @@ function fetchJsonp(url, options = {}) {
     const script = document.createElement("script");
     const parsed = new URL(url, window.location.href);
     parsed.searchParams.set("callback", callbackName);
+    parsed.searchParams.set("_", String(Date.now()));
 
     let settled = false;
     const finish = (fn, value) => {
@@ -62,23 +64,45 @@ function fetchJsonp(url, options = {}) {
     script.src = parsed.toString();
     script.async = true;
     script.referrerPolicy = "no-referrer";
-    script.onerror = () => finish(reject, new Error("JSONP request failed."));
+    script.onerror = () => finish(reject, new Error("GAS Web App のJSONPを読み込めませんでした。公開権限またはデプロイ版を確認してください。"));
 
-    const timer = setTimeout(() => finish(reject, new Error("JSONP request timed out.")), APP_CONFIG.requestTimeoutMs);
+    const timer = setTimeout(
+      () => finish(reject, new Error("GAS Web App の応答がタイムアウトしました。")),
+      APP_CONFIG.requestTimeoutMs
+    );
+
     if (options.signal) {
-      options.signal.addEventListener("abort", () => finish(reject, options.signal.reason ?? new DOMException("Aborted", "AbortError")), { once: true });
+      options.signal.addEventListener(
+        "abort",
+        () => finish(reject, options.signal.reason ?? new DOMException("Aborted", "AbortError")),
+        { once: true }
+      );
     }
+
     document.head.appendChild(script);
   });
 }
 
 export async function fetchGoogleFormResponses(options = {}) {
   const endpoint = validateEndpoint(APP_CONFIG.gasWebAppUrl);
-  try {
-    return await fetchJson(endpoint, options);
-  } catch (error) {
-    if (!APP_CONFIG.allowJsonpFallback || options.disableJsonpFallback) throw error;
-    console.warn("GAS fetch failed. Trying JSONP fallback for public read-only data.", error);
-    return fetchJsonp(endpoint, options);
+
+  // Apps Script ContentService は別オリジンへリダイレクトされるため、
+  // GitHub Pages からは JSONP を第一経路として使用する。
+  if (APP_CONFIG.allowJsonpFallback && !options.disableJsonpFallback) {
+    try {
+      return await fetchJsonp(endpoint, options);
+    } catch (jsonpError) {
+      try {
+        return await fetchJson(endpoint, options);
+      } catch (fetchError) {
+        console.error("GAS JSONP failed", jsonpError);
+        console.error("GAS fetch failed", fetchError);
+        throw new Error(
+          "GAS APIに接続できません。Apps Scriptのデプロイを『実行するユーザー: 自分』『アクセスできるユーザー: 全員』にし、最新バージョンを再デプロイしてください。"
+        );
+      }
+    }
   }
+
+  return fetchJson(endpoint, options);
 }
