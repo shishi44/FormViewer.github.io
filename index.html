@@ -22,52 +22,37 @@
     </div>
     <div class="app-header__actions">
       <div class="sync-meta" aria-live="polite">
-        <span id="data-source-badge" class="status-badge">GAS</span>
+        <button id="connection-button" class="status-badge status-badge--button" type="button">未接続</button>
         <span id="response-count">0件</span>
         <span id="last-updated">未取得</span>
       </div>
-      <button id="reload-button" class="button button--secondary" type="button">
-        <span aria-hidden="true">↻</span>
-        再読み込み
-      </button>
+      <button id="reload-button" class="button button--secondary" type="button"><span aria-hidden="true">↻</span>再読み込み</button>
+      <button id="obs-button" class="button button--secondary" type="button">OBSで使う</button>
       <a class="button button--primary" href="./viewer.html" target="_blank" rel="noopener">表示画面を開く</a>
     </div>
   </header>
 
   <main class="editor-layout">
     <aside class="panel responses-panel" aria-label="回答一覧">
-      <div class="panel__header">
-        <div>
-          <p class="panel__eyebrow">RESPONSES</p>
-          <h2 class="panel__title">回答一覧</h2>
-        </div>
-        <span id="list-count" class="count-badge">0</span>
-      </div>
+      <div class="panel__header"><div><p class="panel__eyebrow">RESPONSES</p><h2 class="panel__title">回答一覧</h2></div><span id="list-count" class="count-badge">0</span></div>
       <div id="responses-state" class="state-box" role="status"></div>
       <div id="response-list" class="response-list" role="listbox" aria-label="Googleフォーム回答"></div>
     </aside>
 
     <section class="workspace" aria-label="プレビュー">
       <div class="workspace-toolbar">
-        <div>
-          <p class="panel__eyebrow">LIVE PREVIEW</p>
-          <h2 class="panel__title">プレビュー</h2>
-        </div>
+        <div><p class="panel__eyebrow">LIVE PREVIEW</p><h2 class="panel__title">プレビュー</h2></div>
         <div class="response-nav" aria-label="回答移動">
-          <button id="prev-response" class="icon-button" type="button" aria-label="前の回答">←</button>
+          <button id="prev-response" class="icon-button" type="button" aria-label="前のお便り">←</button>
           <span id="response-position" class="response-position">— / —</span>
-          <button id="next-response" class="icon-button" type="button" aria-label="次の回答">→</button>
+          <button id="next-response" class="icon-button" type="button" aria-label="次のお便り">→</button>
         </div>
       </div>
-
       <div id="preview-stage" class="preview-stage">
         <div id="preview-state" class="preview-state" hidden></div>
         <div id="editor-preview" class="template-host">
           <article class="template-root" data-template="clean">
-            <header class="template-name-wrap">
-              <p class="template-label" aria-hidden="true">MESSAGE FROM</p>
-              <h3 class="response-name"></h3>
-            </header>
+            <header class="template-name-wrap"><p class="template-label" aria-hidden="true">MESSAGE FROM</p><h3 class="response-name"></h3></header>
             <div class="template-divider" aria-hidden="true"></div>
             <div class="response-content" tabindex="0"></div>
           </article>
@@ -76,43 +61,71 @@
     </section>
 
     <aside class="panel settings-panel" aria-label="表示設定">
-      <div class="panel__header panel__header--stack">
-        <p class="panel__eyebrow">APPEARANCE</p>
-        <h2 class="panel__title">表示設定</h2>
-        <p class="panel__description">テンプレートと文字サイズを調整します。</p>
-      </div>
-
-      <section class="settings-section">
-        <div class="settings-section__heading">
-          <h3>テンプレート</h3>
-          <span id="template-name" class="settings-value">Clean</span>
-        </div>
-        <div id="template-selector" class="template-selector" role="radiogroup" aria-label="テンプレート"></div>
-      </section>
-
-      <section class="settings-section">
-        <div class="settings-section__heading">
-          <h3>お名前</h3>
-          <span id="name-size-label" class="settings-value">32px</span>
-        </div>
-        <div id="name-font-control" class="font-control"></div>
-      </section>
-
-      <section class="settings-section">
-        <div class="settings-section__heading">
-          <h3>内容</h3>
-          <span id="content-size-label" class="settings-value">18px</span>
-        </div>
-        <div id="content-font-control" class="font-control"></div>
-      </section>
-
-      <div class="settings-actions">
-        <button id="reset-template" class="button button--secondary button--full" type="button">テンプレート既定値に戻す</button>
-      </div>
-
-      <p class="settings-note">設定はこのブラウザに自動保存されます。回答本文は保存しません。</p>
+      <div class="panel__header panel__header--stack"><p class="panel__eyebrow">APPEARANCE</p><h2 class="panel__title">表示設定</h2><p class="panel__description">テンプレートと文字サイズを調整します。</p></div>
+      <section class="settings-section"><div class="settings-section__heading"><h3>テンプレート</h3><span id="template-name" class="settings-value">Clean</span></div><div id="template-selector" class="template-selector" role="radiogroup" aria-label="テンプレート"></div></section>
+      <section class="settings-section"><div class="settings-section__heading"><h3>お名前</h3><span id="name-size-label" class="settings-value">32px</span></div><div id="name-font-control" class="font-control"></div></section>
+      <section class="settings-section"><div class="settings-section__heading"><h3>内容</h3><span id="content-size-label" class="settings-value">18px</span></div><div id="content-font-control" class="font-control"></div></section>
+      <div class="settings-actions"><button id="reset-template" class="button button--secondary button--full" type="button">テンプレート既定値に戻す</button></div>
+      <p class="settings-note">設定はこのブラウザに自動保存されます。← → キーでもお便りを切り替えられます。</p>
     </aside>
   </main>
+
+  <dialog id="connection-dialog" class="app-dialog">
+    <form method="dialog" class="dialog-card dialog-card--wide">
+      <header class="dialog-header"><div><p class="panel__eyebrow">DATA CONNECTION</p><h2>回答データを接続</h2><p>おすすめはGoogleスプレッドシートのURLを貼る方法です。GASは不要です。</p></div><button class="dialog-close" value="cancel" aria-label="閉じる">×</button></header>
+      <div class="connection-tabs" role="tablist" aria-label="接続方法">
+        <button type="button" class="connection-tab is-active" data-connection-tab="sheet">Googleスプレッドシート <span>おすすめ</span></button>
+        <button type="button" class="connection-tab" data-connection-tab="csv">CSV</button>
+        <button type="button" class="connection-tab" data-connection-tab="gas">GAS <small>上級者向け</small></button>
+      </div>
+
+      <section class="connection-pane is-active" data-connection-pane="sheet">
+        <div class="easy-steps"><span><b>1</b> フォーム回答をスプレッドシートに保存</span><span><b>2</b> 共有を「リンクを知っている全員・閲覧者」にする</span><span><b>3</b> URLを下に貼る</span></div>
+        <label class="field"><span>GoogleスプレッドシートURL</span><input id="sheet-url-input" type="url" placeholder="https://docs.google.com/spreadsheets/d/.../edit#gid=0" autocomplete="off"></label>
+        <button id="sheet-read-button" class="button button--primary" type="button">シートを読み込む</button>
+        <div id="sheet-connect-state" class="inline-state" role="status"></div>
+        <div id="sheet-mapping" class="mapping-box" hidden>
+          <p class="mapping-title">使う列を確認</p>
+          <div class="mapping-grid"><label>お名前<select id="sheet-name-column"></select></label><label>内容<select id="sheet-content-column"></select></label><label>タイムスタンプ<select id="sheet-timestamp-column"></select></label></div>
+          <button id="sheet-save-button" class="button button--primary" type="button">この設定で接続</button>
+        </div>
+        <p class="privacy-note">共有したシートはリンクを知る人が閲覧できます。本名・メール・住所など非公開情報を同じシートに含めないでください。</p>
+      </section>
+
+      <section class="connection-pane" data-connection-pane="csv">
+        <p class="pane-lead">公開設定をしたくない場合に使えます。CSVはこのブラウザ内に保存され、外部サーバーへ送信しません。</p>
+        <label class="file-drop"><input id="csv-file-input" type="file" accept=".csv,text/csv"><span>CSVファイルを選択</span><small>Googleスプレッドシートの「ファイル → ダウンロード → CSV」でも作成できます。</small></label>
+        <div id="csv-connect-state" class="inline-state" role="status"></div>
+        <div id="csv-mapping" class="mapping-box" hidden>
+          <p class="mapping-title">使う列を確認</p>
+          <div class="mapping-grid"><label>お名前<select id="csv-name-column"></select></label><label>内容<select id="csv-content-column"></select></label><label>タイムスタンプ<select id="csv-timestamp-column"></select></label></div>
+          <button id="csv-save-button" class="button button--primary" type="button">CSVを使用する</button>
+        </div>
+      </section>
+
+      <section class="connection-pane" data-connection-pane="gas">
+        <p class="pane-lead">既存のGAS連携を使いたい方向けです。通常はGoogleスプレッドシート方式をおすすめします。</p>
+        <label class="field"><span>GAS Web App URL</span><input id="gas-url-input" type="url" placeholder="https://script.google.com/macros/s/.../exec" autocomplete="off"></label>
+        <div id="gas-connect-state" class="inline-state" role="status"></div>
+        <button id="gas-save-button" class="button button--primary" type="button">GASで接続</button>
+      </section>
+
+      <footer class="dialog-footer"><button id="disconnect-button" class="button button--danger" type="button">現在の接続を解除</button><button class="button button--secondary" value="cancel">閉じる</button></footer>
+    </form>
+  </dialog>
+
+  <dialog id="obs-dialog" class="app-dialog">
+    <form method="dialog" class="dialog-card dialog-card--wide">
+      <header class="dialog-header"><div><p class="panel__eyebrow">OBS OVERLAY</p><h2>OBSで使う</h2><p>背景は透明です。クロマキーは必要ありません。</p></div><button class="dialog-close" value="cancel" aria-label="閉じる">×</button></header>
+      <div class="obs-options">
+        <section class="obs-option obs-option--recommended"><span class="recommend-chip">自動更新</span><h3>ブラウザソースURL</h3><p>Googleスプレッドシート接続時におすすめ。新しい回答も自動で再取得します。</p><div class="copy-row"><input id="obs-live-url" type="text" readonly><button id="copy-obs-url" class="button button--primary" type="button">コピー</button></div><p id="obs-live-note" class="mini-note"></p></section>
+        <section class="obs-option"><h3>OBS用HTML</h3><p>現在読み込んでいる回答とデザインを1つのHTMLに保存します。CSVでも使用できます。書き出した時点のスナップショットです。</p><button id="download-obs-html" class="button button--secondary" type="button">OBS用HTMLを保存</button></section>
+        <section class="obs-option"><h3>OBSホットキー</h3><p>OBSの「ツール → スクリプト」で追加すると、OBSにフォーカスがなくても「前へ / 次へ」のホットキーを割り当てられます。</p><a class="button button--secondary" href="./obs/formviewer-hotkeys.lua" download>Luaスクリプトを保存</a></section>
+      </div>
+      <div class="obs-guide"><b>OBS設定</b><span>ソース追加 → ブラウザ</span><span>推奨サイズ: 1000 × 650</span><span>← 前のお便り / → 次のお便り</span></div>
+      <footer class="dialog-footer"><button class="button button--secondary" value="cancel">閉じる</button></footer>
+    </form>
+  </dialog>
 
   <script type="module" src="./js/editor.js"></script>
 </body>

@@ -1,80 +1,59 @@
-# Googleフォーム回答テンプレートビューアー
+# FormViewer
 
-Google Forms → Google Sheets → Google Apps Script → GitHub Pages で、フォーム回答を複数テンプレートへ差し込んで見やすく表示するWebアプリです。
+Googleフォームの回答を読み込み、配信・画面表示向けテンプレートへ整形するGitHub Pages対応ビューアーです。
 
-## v1の機能
+## 初心者向けの使い方
 
-- `お名前(ラジオネーム)` / `内容` の表示
-- 回答一覧・前後移動
-- Clean / Paper / Pop / Radio の4テンプレート
-- 名前と本文のフォントサイズを独立変更
-- テンプレート単位で設定をlocalStorageへ保存
-- 長文は本文領域だけ縦スクロール
-- 改行保持、長URL・連続文字の折り返し
-- `textContent` によるXSS対策
-- Loading / Empty / Error 状態
-- PC 3カラム + タブレット/スマホ対応
-- サンプルデータとGASデータソースの切替
-- `fetch()` → JSONPフォールバック対応
+1. Googleフォームの回答先をGoogleスプレッドシートにします。
+2. スプレッドシートの共有を「リンクを知っている全員 / 閲覧者」にします。
+3. FormViewerを開き、「GoogleスプレッドシートURL」を貼ります。
+4. 「お名前」「内容」に使う列を確認して接続します。
 
-## まずローカルで確認
+GASの作成・デプロイは不要です。
 
-ES ModulesとJSON読込を使用するため、`file://` 直開きではなくHTTPサーバーで確認してください。
+> 公開シートには本名、メール、住所など配信で公開しない情報を入れないでください。
 
-Python例:
+## データ接続
 
-```bash
-python -m http.server 8080
-```
+- **Googleスプレッドシート（推奨）**: URLを貼るだけ。再読み込みで新着回答を取得できます。
+- **CSV**: ファイルをブラウザ内に保存して利用します。シートを公開したくない場合向けです。
+- **GAS**: 既存のGAS連携を使いたい上級者向けの互換モードです。
 
-その後:
+## OBS
 
-- 管理画面: `http://localhost:8080/editor.html`
-- 表示画面: `http://localhost:8080/index.html`
+管理画面の「OBSで使う」から以下を利用できます。
 
-初期状態は `js/config/appConfig.js` の `dataSource: "sample"` なのでGoogle接続なしで動作します。
+### ブラウザソースURL
 
-## Googleフォームへ接続
+Googleスプレッドシート接続時に利用できます。OBSの「ソース追加 → ブラウザ」にURLを貼り付けます。
+背景は透明で、約60秒ごとに新しい回答を再取得します。
 
-1. `gas/README.md` に従ってApps ScriptをWeb Appとしてデプロイ。
-2. `js/config/appConfig.js` を変更。
+推奨 Browser Source サイズ: `1000 x 650`
 
-```js
-export const APP_CONFIG = Object.freeze({
-  dataSource: "gas",
-  gasWebAppUrl: "https://script.google.com/macros/s/XXXX/exec",
-  // ...
-});
-```
+### OBS用HTML
 
-3. ローカルHTTPサーバーで実回答を確認。
-4. Chrome / Edge / SafariでCORS・リダイレクトを確認。
-5. 問題なければGitHub Pagesへ公開。
+現在の回答と選択中テンプレートを単一HTMLへ埋め込みます。OBSのブラウザソースで「ローカルファイル」として選択できます。
+CSVでも使用できますが、書き出した時点のスナップショットなので新着回答は自動追加されません。
 
-## GitHub Pages
+### 前 / 次のお便り
 
-リポジトリルートをそのまま `main / root` から公開できます。アセットはすべて相対パスです。
+- `←`: 前のお便り
+- `→`: 次のお便り
 
-## 表示画面の回答指定
+OBSの操作画面から直接キー入力するか、`obs/formviewer-hotkeys.lua` をOBSの「ツール → スクリプト」へ追加してグローバルホットキーを設定できます。
 
-管理画面で最後に選択した回答を表示します。IDを明示する場合:
+## ページ
 
-```text
-index.html?id=response-12
-```
+- `/` : 管理・編集画面
+- `/viewer.html` : 通常表示画面
+- `/obs.html` : OBS透明オーバーレイ
+- `/editor.html` : `/` への互換リダイレクト
 
-テンプレートだけURLで上書きする場合:
+## 技術構成
 
-```text
-index.html?id=response-12&template=radio
-```
-
-## セキュリティ
-
-v1は「返却される回答が公開されても問題ない」運用向けです。個人情報や非公開相談を扱う場合はこの公開GAS構成を使用せず、認証付きサーバーサイドAPIへ移行してください。
-
-秘密鍵、OAuthトークン、実回答JSONをGitへコミットしないでください。
-
-## 構成
-
-詳細は `docs/architecture.md` と `docs/template-guide.md` を参照してください。
+- GitHub Pages
+- HTML / CSS / Vanilla JavaScript
+- Google Visualization API (`/gviz/tq`) による公開Google Sheets読み取り
+- IndexedDBによるCSV保存
+- localStorageによる表示設定保存
+- OBS Browser Source / OBS Lua Script対応

@@ -1,33 +1,27 @@
 # Architecture
 
-## データフロー
+## 標準経路
 
-```text
-Google Forms
-  ↓
-Google Sheets
-  ↓ SpreadsheetApp
-Google Apps Script Web App
-  ↓ JSON / JSONP fallback
-js/api/googleFormsApi.js
-  ↓
-js/services/responseService.js
-  ↓
-editor.js / app.js
-  ↓
-responseRenderer.js
-  ↓
-テンプレートCSS
-```
+Google Form → Google Sheets（リンク共有）→ Google Visualization `/gviz/tq` → FormViewer
 
-## 責務境界
+Google SheetsはURLからSpreadsheet IDとgidを抽出し、script injection方式でブラウザから直接読み取る。サーバーやGASは標準経路に含めない。
 
-- `js/api/`: 外部I/O。将来Vercel APIへ差し替える境界。
-- `js/services/`: 正規化、設定保存、キャッシュ。
-- `js/ui/`: DOM生成と表示のみ。
-- `templates/`: 表示デザインのみ。APIやlocalStorageへ依存しない。
-- `gas/`: 読み取り専用のGoogle側実装。
+## CSV経路
 
-## 公開範囲
+CSV → browser parser → IndexedDB → Response Service → Renderer
 
-v1は回答が公開されても問題ない運用を前提とする。非公開回答や認証が必要になった場合はGitHub Pages + 公開GAS方式を継続せず、サーバーサイドAPIへ移行する。
+CSVは外部送信しない。
+
+## OBS
+
+### Live URL
+
+`obs.html` にSheet ID / gid / 列マッピング / テンプレート設定をquery parameterとして渡す。OBS Browser Source自身がGoogle Sheetsを読み込み、一定間隔で更新する。
+
+### Standalone HTML
+
+管理画面が現在のresponsesとテンプレートCSSをHTMLへ埋め込み、1ファイルとして書き出す。外部データ接続を必要としないスナップショット。
+
+### Hotkeys
+
+OBS Lua scriptがBrowser SourceへArrowLeft / ArrowRightのkey eventを送る。
