@@ -1,6 +1,5 @@
 import { APP_CONFIG } from "../config/appConfig.js";
 import { fetchGoogleSheetTable } from "../api/googleSheetsApi.js";
-import { fetchGoogleFormResponses } from "../api/googleFormsApi.js";
 import { loadConnection, connectionLabel } from "./connectionService.js";
 import { loadCsvTable } from "./csvStorage.js";
 import { tableToResponsePayload } from "../utils/tabular.js";
@@ -27,11 +26,21 @@ function normalizePayload(payload) {
     throw error;
   }
   const responses = Array.isArray(payload.responses) ? payload.responses.map(normalizeResponse) : [];
+  const ordered = responses
+    .map((item, index) => ({ item, index, time: Date.parse(item.submittedAt) }))
+    .sort((a, b) => {
+      const aValid = Number.isFinite(a.time);
+      const bValid = Number.isFinite(b.time);
+      if (aValid && bValid && a.time !== b.time) return a.time - b.time;
+      if (aValid !== bValid) return aValid ? -1 : 1;
+      return a.index - b.index;
+    })
+    .map(({ item }) => item);
   return Object.freeze({
     ok: true,
     generatedAt: toStringSafe(payload.generatedAt) || new Date().toISOString(),
-    count: responses.length,
-    responses: Object.freeze(responses)
+    count: ordered.length,
+    responses: Object.freeze(ordered)
   });
 }
 
@@ -58,8 +67,6 @@ export async function loadResponses(options = {}) {
     const table = await loadCsvTable();
     if (!table) throw new Error("保存済みのCSVが見つかりません。CSVをもう一度読み込んでください。");
     payload = tableToResponsePayload(table, connection, { idPrefix: "csv" });
-  } else if (connection.type === "gas") {
-    payload = await fetchGoogleFormResponses(connection.gasWebAppUrl, options);
   } else if (connection.type === "sample") {
     payload = await fetchSample(options);
   } else {

@@ -27,7 +27,7 @@ const elements = {
   sheetName: qs("#sheet-name-column"), sheetContent: qs("#sheet-content-column"), sheetTimestamp: qs("#sheet-timestamp-column"), sheetSave: qs("#sheet-save-button"),
   csvFile: qs("#csv-file-input"), csvState: qs("#csv-connect-state"), csvMapping: qs("#csv-mapping"), csvName: qs("#csv-name-column"),
   csvContent: qs("#csv-content-column"), csvTimestamp: qs("#csv-timestamp-column"), csvSave: qs("#csv-save-button"),
-  gasUrl: qs("#gas-url-input"), gasState: qs("#gas-connect-state"), gasSave: qs("#gas-save-button"), disconnect: qs("#disconnect-button"),
+  disconnect: qs("#disconnect-button"),
   obsLiveUrl: qs("#obs-live-url"), obsLiveNote: qs("#obs-live-note"), copyObsUrl: qs("#copy-obs-url"), downloadObsHtml: qs("#download-obs-html")
 };
 
@@ -128,7 +128,6 @@ function switchConnectionTab(tabName) {
 function openConnectionDialog() {
   const connection = state.connection;
   if (connection.type === "sheet") { elements.sheetUrl.value = connection.sourceUrl || `https://docs.google.com/spreadsheets/d/${connection.spreadsheetId}/edit#gid=${connection.gid}`; switchConnectionTab("sheet"); }
-  else if (connection.type === "gas") { elements.gasUrl.value = connection.gasWebAppUrl || ""; switchConnectionTab("gas"); }
   else switchConnectionTab("sheet");
   elements.connectionDialog.showModal();
 }
@@ -176,17 +175,9 @@ async function saveCsvConnection() {
   } catch (error) { setText(elements.csvState, error.message); elements.csvState.dataset.state = "error"; }
 }
 
-async function saveGasConnection() {
-  const value = elements.gasUrl.value.trim();
-  try {
-    const url = new URL(value); if (url.protocol !== "https:" || !url.pathname.endsWith("/exec")) throw new Error("/execで終わるGAS Web App URLを入力してください。");
-    state.connection = saveConnection({ type: "gas", gasWebAppUrl: url.toString() }); clearResponseCache(); elements.connectionDialog.close(); updateConnectionBadge(); await refreshResponses({ force: true });
-  } catch (error) { setText(elements.gasState, error.message); elements.gasState.dataset.state = "error"; }
-}
-
 async function disconnect() {
   clearConnection(); await clearCsvTable(); clearResponseCache(); state.connection = { type: "none" }; state.responses = []; state.selectedId = ""; updateConnectionBadge();
-  setText(elements.sheetState, ""); setText(elements.csvState, ""); setText(elements.gasState, ""); elements.connectionDialog.close(); await refreshResponses(); setTimeout(openConnectionDialog, 50);
+  setText(elements.sheetState, ""); setText(elements.csvState, ""); elements.connectionDialog.close(); await refreshResponses(); setTimeout(openConnectionDialog, 50);
 }
 
 function selectTemplate(templateId) { state.settings = updateTemplateSettings(state.settings, templateId, {}); applyTemplateStylesheet(elements.stylesheet, templateId); updateControlsFromSettings(); renderCurrentResponse(); }
@@ -231,7 +222,7 @@ function initEvents() {
   document.querySelectorAll("[data-connection-tab]").forEach((button) => button.addEventListener("click", () => switchConnectionTab(button.dataset.connectionTab)));
   elements.sheetRead.addEventListener("click", testSheet); elements.sheetSave.addEventListener("click", saveSheetConnection);
   elements.csvFile.addEventListener("change", () => loadCsvFile(elements.csvFile.files?.[0])); elements.csvSave.addEventListener("click", saveCsvConnection);
-  elements.gasSave.addEventListener("click", saveGasConnection); elements.disconnect.addEventListener("click", disconnect);
+  elements.disconnect.addEventListener("click", disconnect);
   elements.copyObsUrl.addEventListener("click", copyObsUrl); elements.downloadObsHtml.addEventListener("click", downloadObsHtml);
   elements.sheetTimestamp.dataset.optional = "true"; elements.csvTimestamp.dataset.optional = "true";
 

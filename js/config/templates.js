@@ -2,40 +2,36 @@ const freezeDefaults = (defaults) => Object.freeze(defaults);
 
 export const TEMPLATES = Object.freeze([
   Object.freeze({
-    id: "clean",
-    name: "Clean",
-    label: "MESSAGE FROM",
-    stylesheet: "./templates/clean/clean.css",
-    preview: "./templates/clean/preview.png",
-    previewColors: ["#ffffff", "#181d26"],
-    defaults: freezeDefaults({ nameFontSize: 32, contentFontSize: 18, contentHeight: 360, contentLineHeight: 1.75 })
+    id: "clean", name: "Clean", label: "MESSAGE FROM", stylesheet: "./templates/clean/clean.css", preview: "./templates/clean/preview.png",
+    previewColors: ["#ffffff", "#181d26"], defaults: freezeDefaults({ nameFontSize: 32, contentFontSize: 18, contentHeight: 360, contentLineHeight: 1.75 })
   }),
   Object.freeze({
-    id: "paper",
-    name: "Paper",
-    label: "LETTER FROM",
-    stylesheet: "./templates/paper/paper.css",
-    preview: "./templates/paper/preview.png",
-    previewColors: ["#f7f0df", "#604d38"],
-    defaults: freezeDefaults({ nameFontSize: 30, contentFontSize: 18, contentHeight: 390, contentLineHeight: 1.9 })
+    id: "paper", name: "Paper", label: "LETTER FROM", stylesheet: "./templates/paper/paper.css", preview: "./templates/paper/preview.png",
+    previewColors: ["#f7f0df", "#604d38"], defaults: freezeDefaults({ nameFontSize: 30, contentFontSize: 18, contentHeight: 390, contentLineHeight: 1.9 })
   }),
   Object.freeze({
-    id: "pop",
-    name: "Pop",
-    label: "HELLO FROM",
-    stylesheet: "./templates/pop/pop.css",
-    preview: "./templates/pop/preview.png",
-    previewColors: ["#fff7c7", "#ff5d73"],
-    defaults: freezeDefaults({ nameFontSize: 36, contentFontSize: 20, contentHeight: 350, contentLineHeight: 1.7 })
+    id: "radio", name: "Radio", label: "ON AIR MESSAGE", stylesheet: "./templates/radio/radio.css", preview: "./templates/radio/preview.png",
+    previewColors: ["#f3efe7", "#264653"], defaults: freezeDefaults({ nameFontSize: 28, contentFontSize: 21, contentHeight: 380, contentLineHeight: 1.8 })
   }),
   Object.freeze({
-    id: "radio",
-    name: "Radio",
-    label: "ON AIR MESSAGE",
-    stylesheet: "./templates/radio/radio.css",
-    preview: "./templates/radio/preview.png",
-    previewColors: ["#f3efe7", "#264653"],
-    defaults: freezeDefaults({ nameFontSize: 28, contentFontSize: 21, contentHeight: 380, contentLineHeight: 1.8 })
+    id: "postcard", name: "Postcard", label: "POSTCARD FROM", stylesheet: "./templates/postcard/postcard.css",
+    previewColors: ["#f7fbff", "#7aa6c6"], defaults: freezeDefaults({ nameFontSize: 30, contentFontSize: 18, contentHeight: 370, contentLineHeight: 1.8 })
+  }),
+  Object.freeze({
+    id: "notebook", name: "Notebook", label: "NOTE FROM", stylesheet: "./templates/notebook/notebook.css",
+    previewColors: ["#fffdf6", "#86a7c5"], defaults: freezeDefaults({ nameFontSize: 30, contentFontSize: 18, contentHeight: 380, contentLineHeight: 1.78 })
+  }),
+  Object.freeze({
+    id: "studio", name: "Studio", label: "STUDIO MESSAGE", stylesheet: "./templates/studio/studio.css",
+    previewColors: ["#f7f9fa", "#315c6d"], defaults: freezeDefaults({ nameFontSize: 29, contentFontSize: 19, contentHeight: 370, contentLineHeight: 1.75 })
+  }),
+  Object.freeze({
+    id: "sakura", name: "Sakura", label: "LETTER FROM", stylesheet: "./templates/sakura/sakura.css",
+    previewColors: ["#fff8fa", "#d98294"], defaults: freezeDefaults({ nameFontSize: 32, contentFontSize: 18, contentHeight: 370, contentLineHeight: 1.8 })
+  }),
+  Object.freeze({
+    id: "pop", name: "Pop", label: "HELLO FROM", stylesheet: "./templates/pop/pop.css", preview: "./templates/pop/preview.png",
+    previewColors: ["#fff7c7", "#ff5d73"], defaults: freezeDefaults({ nameFontSize: 36, contentFontSize: 20, contentHeight: 350, contentLineHeight: 1.7 })
   })
 ]);
 
