@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>回答ビューアー</title>
+  <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="./css/variables.css">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/viewer.css">
+  <link id="template-stylesheet" rel="stylesheet" href="./templates/clean/clean.css">
+</head>
+<body class="viewer-page">
+  <main class="viewer-shell" aria-live="polite">
+    <section id="viewer-status" class="viewer-status" hidden></section>
+    <div id="viewer-preview" class="template-host" aria-label="回答表示">
+      <article class="template-root" data-template="clean">
+        <header class="template-name-wrap">
+          <p class="template-label" aria-hidden="true">MESSAGE FROM</p>
+          <h1 class="response-name"></h1>
+        </header>
+        <div class="template-divider" aria-hidden="true"></div>
+        <div class="response-content" tabindex="0"></div>
+      </article>
+    </div>
+  </main>
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>
