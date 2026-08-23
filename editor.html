@@ -3,117 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light">
-  <title>回答テンプレートエディター</title>
-  <link rel="stylesheet" href="./css/reset.css">
-  <link rel="stylesheet" href="./css/variables.css">
-  <link rel="stylesheet" href="./css/base.css">
-  <link rel="stylesheet" href="./css/editor.css">
-  <link id="template-stylesheet" rel="stylesheet" href="./templates/clean/clean.css">
+  <meta name="robots" content="noindex">
+  <title>移動しています…</title>
+  <meta http-equiv="refresh" content="0; url=./">
+  <script>
+    window.location.replace('./' + window.location.search + window.location.hash);
+  </script>
 </head>
-<body class="editor-page">
-  <header class="app-header">
-    <div class="app-header__identity">
-      <div class="app-mark" aria-hidden="true">GF</div>
-      <div>
-        <h1 class="app-title">回答テンプレート</h1>
-        <p class="app-subtitle">Googleフォーム回答ビューアー</p>
-      </div>
-    </div>
-    <div class="app-header__actions">
-      <div class="sync-meta" aria-live="polite">
-        <span id="data-source-badge" class="status-badge">Sample</span>
-        <span id="response-count">0件</span>
-        <span id="last-updated">未取得</span>
-      </div>
-      <button id="reload-button" class="button button--secondary" type="button">
-        <span aria-hidden="true">↻</span>
-        再読み込み
-      </button>
-      <a class="button button--primary" href="./index.html" target="_blank" rel="noopener">表示画面を開く</a>
-    </div>
-  </header>
-
-  <main class="editor-layout">
-    <aside class="panel responses-panel" aria-label="回答一覧">
-      <div class="panel__header">
-        <div>
-          <p class="panel__eyebrow">RESPONSES</p>
-          <h2 class="panel__title">回答一覧</h2>
-        </div>
-        <span id="list-count" class="count-badge">0</span>
-      </div>
-      <div id="responses-state" class="state-box" role="status"></div>
-      <div id="response-list" class="response-list" role="listbox" aria-label="Googleフォーム回答"></div>
-    </aside>
-
-    <section class="workspace" aria-label="プレビュー">
-      <div class="workspace-toolbar">
-        <div>
-          <p class="panel__eyebrow">LIVE PREVIEW</p>
-          <h2 class="panel__title">プレビュー</h2>
-        </div>
-        <div class="response-nav" aria-label="回答移動">
-          <button id="prev-response" class="icon-button" type="button" aria-label="前の回答">←</button>
-          <span id="response-position" class="response-position">— / —</span>
-          <button id="next-response" class="icon-button" type="button" aria-label="次の回答">→</button>
-        </div>
-      </div>
-
-      <div id="preview-stage" class="preview-stage">
-        <div id="preview-state" class="preview-state" hidden></div>
-        <div id="editor-preview" class="template-host">
-          <article class="template-root" data-template="clean">
-            <header class="template-name-wrap">
-              <p class="template-label" aria-hidden="true">MESSAGE FROM</p>
-              <h3 class="response-name"></h3>
-            </header>
-            <div class="template-divider" aria-hidden="true"></div>
-            <div class="response-content" tabindex="0"></div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <aside class="panel settings-panel" aria-label="表示設定">
-      <div class="panel__header panel__header--stack">
-        <p class="panel__eyebrow">APPEARANCE</p>
-        <h2 class="panel__title">表示設定</h2>
-        <p class="panel__description">テンプレートと文字サイズを調整します。</p>
-      </div>
-
-      <section class="settings-section">
-        <div class="settings-section__heading">
-          <h3>テンプレート</h3>
-          <span id="template-name" class="settings-value">Clean</span>
-        </div>
-        <div id="template-selector" class="template-selector" role="radiogroup" aria-label="テンプレート"></div>
-      </section>
-
-      <section class="settings-section">
-        <div class="settings-section__heading">
-          <h3>お名前</h3>
-          <span id="name-size-label" class="settings-value">32px</span>
-        </div>
-        <div id="name-font-control" class="font-control"></div>
-      </section>
-
-      <section class="settings-section">
-        <div class="settings-section__heading">
-          <h3>内容</h3>
-          <span id="content-size-label" class="settings-value">18px</span>
-        </div>
-        <div id="content-font-control" class="font-control"></div>
-      </section>
-
-      <div class="settings-actions">
-        <button id="reset-template" class="button button--secondary button--full" type="button">テンプレート既定値に戻す</button>
-      </div>
-
-      <p class="settings-note">設定はこのブラウザに自動保存されます。回答本文は保存しません。</p>
-    </aside>
-  </main>
-
-  <script type="module" src="./js/editor.js"></script>
+<body>
+  <p><a href="./">編集画面へ移動</a></p>
 </body>
 </html>
