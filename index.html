@@ -96,66 +96,37 @@
         <button type="button" class="connection-tab is-active" data-connection-tab="sheet">Googleスプレッドシート <span>おすすめ</span></button>
         <button type="button" class="connection-tab" data-connection-tab="csv">CSV <small>ローカル</small></button>
       </div>
-
       <section class="connection-pane is-active" data-connection-pane="sheet">
         <div class="easy-steps"><span><b>1</b> フォーム回答をスプレッドシートに保存</span><span><b>2</b> 共有を「リンクを知っている全員・閲覧者」にする</span><span><b>3</b> URLを下に貼る</span></div>
         <label class="field"><span>GoogleスプレッドシートURL</span><input id="sheet-url-input" type="url" placeholder="https://docs.google.com/spreadsheets/d/.../edit#gid=0" autocomplete="off"></label>
         <button id="sheet-read-button" class="button button--primary" type="button">シートを読み込む</button>
         <div id="sheet-connect-state" class="inline-state" role="status"></div>
-        <div id="sheet-mapping" class="mapping-box" hidden>
-          <p class="mapping-title">使う列を確認</p>
-          <div class="mapping-grid"><label>お名前<select id="sheet-name-column"></select></label><label>内容<select id="sheet-content-column"></select></label><label>タイムスタンプ<select id="sheet-timestamp-column"></select></label></div>
-          <button id="sheet-save-button" class="button button--primary" type="button">この設定で接続</button>
-        </div>
+        <div id="sheet-mapping" class="mapping-box" hidden><p class="mapping-title">使う列を確認</p><div class="mapping-grid"><label>お名前<select id="sheet-name-column"></select></label><label>内容<select id="sheet-content-column"></select></label><label>タイムスタンプ<select id="sheet-timestamp-column"></select></label></div><button id="sheet-save-button" class="button button--primary" type="button">この設定で接続</button></div>
         <p class="privacy-note">共有したシートはリンクを知る人が閲覧できます。本名・メール・住所など非公開情報を同じシートに含めないでください。</p>
       </section>
-
       <section class="connection-pane" data-connection-pane="csv">
         <p class="pane-lead">公開設定をしたくない場合に使えます。CSVはこのブラウザ内に保存され、外部サーバーへ送信しません。</p>
         <label class="file-drop"><input id="csv-file-input" type="file" accept=".csv,text/csv"><span>CSVファイルを選択</span><small>Googleスプレッドシートの「ファイル → ダウンロード → CSV」でも作成できます。</small></label>
         <div id="csv-connect-state" class="inline-state" role="status"></div>
-        <div id="csv-mapping" class="mapping-box" hidden>
-          <p class="mapping-title">使う列を確認</p>
-          <div class="mapping-grid"><label>お名前<select id="csv-name-column"></select></label><label>内容<select id="csv-content-column"></select></label><label>タイムスタンプ<select id="csv-timestamp-column"></select></label></div>
-          <button id="csv-save-button" class="button button--primary" type="button">CSVを使用する</button>
-        </div>
+        <div id="csv-mapping" class="mapping-box" hidden><p class="mapping-title">使う列を確認</p><div class="mapping-grid"><label>お名前<select id="csv-name-column"></select></label><label>内容<select id="csv-content-column"></select></label><label>タイムスタンプ<select id="csv-timestamp-column"></select></label></div><button id="csv-save-button" class="button button--primary" type="button">CSVを使用する</button></div>
       </section>
-
       <footer class="dialog-footer"><button id="disconnect-button" class="button button--danger" type="button">現在の接続を解除</button><button class="button button--secondary" value="cancel">閉じる</button></footer>
     </form>
   </dialog>
 
   <dialog id="obs-dialog" class="app-dialog">
     <form method="dialog" class="dialog-card dialog-card--wide">
-      <header class="dialog-header">
-        <div><p class="panel__eyebrow">OBS OUTPUT</p><h2>OBSで使う</h2><p>用途に合わせて3つの方法から選べます。ブラウザソースは透明背景です。</p></div>
-        <button class="dialog-close" value="cancel" aria-label="閉じる">×</button>
-      </header>
+      <header class="dialog-header"><div><p class="panel__eyebrow">OBS OUTPUT</p><h2>OBSで使う</h2><p>用途に合わせて3つの方法から選べます。ブラウザソースは透明背景です。</p></div><button class="dialog-close" value="cancel" aria-label="閉じる">×</button></header>
       <div class="obs-options">
-        <section class="obs-option obs-option--recommended">
-          <span class="recommend-chip">おすすめ</span>
-          <h3>ブラウザソースURL ＋ OBSホットキー</h3>
-          <p>透明背景のBrowser Sourceを使います。URLをOBSへ貼り付け、Luaを追加すると、お便り移動と長文スクロールをOBS側のホットキーで操作できます。</p>
-          <div class="copy-row"><input id="obs-live-url" type="text" readonly><button id="copy-obs-url" class="button button--primary" type="button">URLをコピー</button></div>
-          <div class="obs-inline-actions"><a class="button button--secondary" href="./obs/formviewer-hotkeys.lua" download>ホットキーLuaを保存</a><span>← → お便り移動 / ↑ ↓ 本文スクロール / Home 先頭</span></div>
-          <p id="obs-live-note" class="mini-note"></p>
-        </section>
-        <section class="obs-option">
-          <h3>OBSウィンドウキャプチャ</h3>
-          <p>専用キャプチャ画面を別ウィンドウで開きます。テンプレートと同化しにくいキー背景色を、緑・青・マゼンタから自動選択します。同じブラウザ内では管理画面のお便り切替・本文スクロールも同期します。</p>
-          <div class="obs-inline-actions"><button id="open-capture-window" class="button button--secondary" type="button">専用キャプチャ画面を開く</button><span>OBSではウィンドウキャプチャ＋クロマキー / カラーキーを使用</span></div>
-        </section>
-        <section class="obs-option">
-          <h3>OBS用HTML</h3>
-          <p>現在読み込んでいる回答とデザインを1つのHTMLに保存します。CSVでも利用できます。書き出した時点のスナップショットです。</p>
-          <button id="download-obs-html" class="button button--secondary" type="button">OBS用HTMLを保存</button>
-        </section>
+        <section class="obs-option obs-option--recommended"><span class="recommend-chip">おすすめ</span><h3>ブラウザソースURL ＋ OBSホットキー</h3><p>透明背景のBrowser Sourceを使います。URLをOBSへ貼り付け、Luaを追加すると、お便り移動と長文スクロールをOBS側のホットキーで操作できます。</p><div class="copy-row"><input id="obs-live-url" type="text" readonly><button id="copy-obs-url" class="button button--primary" type="button">URLをコピー</button></div><div class="obs-inline-actions"><a class="button button--secondary" href="./obs/formviewer-hotkeys.lua" download>ホットキーLuaを保存</a><span>← → お便り移動 / ↑ ↓ 本文スクロール / Home 先頭</span></div><p id="obs-live-note" class="mini-note"></p></section>
+        <section class="obs-option"><h3>OBSウィンドウキャプチャ</h3><p>専用キャプチャ画面を別ウィンドウで開きます。テンプレートと同化しにくいキー背景色を、緑・青・マゼンタから自動選択します。専用画面だけで ← → お便り移動、↑ ↓ 本文スクロール、Homeで先頭、Rで更新できます。Google Sheetsは60秒ごとに自動更新します。</p><div class="obs-inline-actions"><button id="open-capture-window" class="button button--secondary" type="button">専用キャプチャ画面を開く</button><span>OBSではウィンドウキャプチャ＋クロマキー / カラーキーを使用。最小化せず表示したまま利用してください</span></div></section>
+        <section class="obs-option"><h3>OBS用HTML</h3><p>現在読み込んでいる回答とデザインを1つのHTMLに保存します。CSVでも利用できます。書き出した時点のスナップショットです。</p><button id="download-obs-html" class="button button--secondary" type="button">OBS用HTMLを保存</button></section>
       </div>
       <footer class="dialog-footer"><button class="button button--secondary" value="cancel">閉じる</button></footer>
     </form>
   </dialog>
 
   <script type="module" src="./js/editor.js?v=30"></script>
-  <script type="module" src="./js/v31-patch.js?v=31"></script>
+  <script type="module" src="./js/v31-patch.js?v=32"></script>
 </body>
 </html>
