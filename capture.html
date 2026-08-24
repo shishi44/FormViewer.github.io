@@ -4,12 +4,29 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>パワラジフォーマット キャプチャ</title>
-  <link rel="icon" href="./assets/icons/favicon.ico?v=30" sizes="any">
+  <link rel="icon" href="./assets/icons/favicon.ico?v=32" sizes="any">
   <link rel="stylesheet" href="./css/reset.css?v=30">
-  <link rel="stylesheet" href="./css/capture.css?v=31">
-  <link id="template-stylesheet" rel="stylesheet" href="./templates/clean/clean.css?v=30">
+  <link rel="stylesheet" href="./css/capture.css?v=32">
+  <link id="template-stylesheet" rel="stylesheet" href="./templates/clean/clean.css?v=32">
 </head>
 <body class="capture-page">
+  <div id="capture-controls" class="capture-controls" aria-label="キャプチャ操作">
+    <div class="capture-controls__group">
+      <button id="capture-prev" type="button" title="前のお便り (←)">←</button>
+      <span id="capture-position" class="capture-controls__position">— / —</span>
+      <button id="capture-next" type="button" title="次のお便り (→)">→</button>
+    </div>
+    <div class="capture-controls__group">
+      <button id="capture-scroll-up" type="button" title="本文を上へ (↑)">↑</button>
+      <button id="capture-scroll-down" type="button" title="本文を下へ (↓)">↓</button>
+      <button id="capture-scroll-home" type="button" title="本文の先頭 (Home)">先頭</button>
+    </div>
+    <div class="capture-controls__group">
+      <button id="capture-refresh" type="button" title="回答を更新 (R)">↻ 更新</button>
+      <span id="capture-refresh-state" class="capture-controls__status">—</span>
+    </div>
+  </div>
+
   <main class="capture-shell" aria-live="polite">
     <div id="capture-status" class="capture-status" hidden></div>
     <div id="capture-preview" class="template-host">
@@ -20,6 +37,6 @@
       </article>
     </div>
   </main>
-  <script type="module" src="./js/capture.js?v=31"></script>
+  <script type="module" src="./js/capture.js?v=32"></script>
 </body>
 </html>
