@@ -32,6 +32,22 @@ export const TEMPLATES = Object.freeze([
   Object.freeze({
     id: "pop", name: "Pop", label: "HELLO FROM", stylesheet: "./templates/pop/pop.css", preview: "./templates/pop/preview.png",
     previewColors: ["#fff7c7", "#ff5d73"], defaults: freezeDefaults({ nameFontSize: 36, contentFontSize: 20, contentHeight: 350, contentLineHeight: 1.7 })
+  }),
+  Object.freeze({
+    id: "airwave", name: "Airwave", label: "AIRWAVE MESSAGE", stylesheet: "./templates/airwave/airwave.css",
+    previewColors: ["#eef9f8", "#2f7f79"], defaults: freezeDefaults({ nameFontSize: 31, contentFontSize: 19, contentHeight: 370, contentLineHeight: 1.78 })
+  }),
+  Object.freeze({
+    id: "editorial", name: "Editorial", label: "LISTENER LETTER", stylesheet: "./templates/editorial/editorial.css",
+    previewColors: ["#f4f0e8", "#262626"], defaults: freezeDefaults({ nameFontSize: 34, contentFontSize: 18, contentHeight: 385, contentLineHeight: 1.85 })
+  }),
+  Object.freeze({
+    id: "midnight", name: "Midnight", label: "MIDNIGHT RADIO", stylesheet: "./templates/midnight/midnight.css",
+    previewColors: ["#172033", "#e8a75d"], defaults: freezeDefaults({ nameFontSize: 31, contentFontSize: 19, contentHeight: 370, contentLineHeight: 1.8 })
+  }),
+  Object.freeze({
+    id: "ticket", name: "Ticket", label: "REQUEST TICKET", stylesheet: "./templates/ticket/ticket.css",
+    previewColors: ["#fff8e8", "#c26b43"], defaults: freezeDefaults({ nameFontSize: 30, contentFontSize: 18, contentHeight: 365, contentLineHeight: 1.78 })
   })
 ]);
 

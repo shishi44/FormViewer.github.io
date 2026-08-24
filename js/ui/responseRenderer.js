@@ -1,10 +1,11 @@
-import { getTemplateById } from "../config/templates.js";
-import { setText } from "../utils/dom.js";
+import { getTemplateById } from "../config/templates.js?v=30";
+import { setText } from "../utils/dom.js?v=30";
 
 export function applyTemplateStylesheet(linkElement, templateId) {
   const template = getTemplateById(templateId);
-  if (linkElement.getAttribute("href") !== template.stylesheet) {
-    linkElement.setAttribute("href", template.stylesheet);
+  const stylesheetHref = `${template.stylesheet}?v=30`;
+  if (linkElement.getAttribute("href") !== stylesheetHref) {
+    linkElement.setAttribute("href", stylesheetHref);
   }
   return template;
 }
@@ -22,6 +23,7 @@ export function renderResponse(host, response, options = {}) {
   root.style.setProperty("--content-font-size", `${options.contentFontSize ?? template.defaults.contentFontSize}px`);
   root.style.setProperty("--content-height", `${template.defaults.contentHeight}px`);
   root.style.setProperty("--content-line-height", String(template.defaults.contentLineHeight));
+  root.dataset.boldText = options.boldText ? "true" : "false";
 
   if (label) setText(label, template.label ?? "MESSAGE FROM");
 

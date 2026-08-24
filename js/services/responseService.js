@@ -1,9 +1,9 @@
-import { APP_CONFIG } from "../config/appConfig.js";
-import { fetchGoogleSheetTable } from "../api/googleSheetsApi.js";
-import { loadConnection, connectionLabel } from "./connectionService.js";
-import { loadCsvTable } from "./csvStorage.js";
-import { tableToResponsePayload } from "../utils/tabular.js";
-import { toStringSafe } from "../utils/helpers.js";
+import { APP_CONFIG } from "../config/appConfig.js?v=30";
+import { fetchGoogleSheetTable } from "../api/googleSheetsApi.js?v=30";
+import { loadConnection, connectionLabel } from "./connectionService.js?v=30";
+import { loadCsvTable } from "./csvStorage.js?v=30";
+import { tableToResponsePayload } from "../utils/tabular.js?v=30";
+import { toStringSafe } from "../utils/helpers.js?v=30";
 
 let memoryCache = null;
 let cacheKey = "";

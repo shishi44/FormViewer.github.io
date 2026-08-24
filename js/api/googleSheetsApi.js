@@ -1,5 +1,5 @@
-import { APP_CONFIG } from "../config/appConfig.js";
-import { isValidCallbackName, toStringSafe } from "../utils/helpers.js";
+import { APP_CONFIG } from "../config/appConfig.js?v=30";
+import { isValidCallbackName, toStringSafe } from "../utils/helpers.js?v=30";
 
 function validateSpreadsheetId(value) {
   const id = toStringSafe(value).trim();
@@ -17,6 +17,15 @@ export function parseGoogleSheetUrl(value) {
   return { spreadsheetId, gid: gidMatch ? gidMatch[1] : "0", sourceUrl: raw };
 }
 
+function parseGvizDateValue(value) {
+  if (typeof value !== "string") return "";
+  const match = value.match(/^Date\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+),\s*(\d+),\s*(\d+))?\)$/);
+  if (!match) return "";
+  const [, year, month, day, hour = "0", minute = "0", second = "0"] = match;
+  const date = new Date(Number(year), Number(month), Number(day), Number(hour), Number(minute), Number(second));
+  return Number.isNaN(date.getTime()) ? "" : date.toISOString();
+}
+
 function tableFromGviz(payload) {
   if (!payload || payload.status === "error") {
     const detail = payload?.errors?.[0]?.detailed_message || payload?.errors?.[0]?.message;
@@ -30,8 +39,13 @@ function tableFromGviz(payload) {
   const rows = table.rows.map((row) => headers.map((_, index) => {
     const cell = row?.c?.[index];
     if (!cell) return "";
-    if (cell.f != null) return toStringSafe(cell.f);
+    const columnType = table.cols[index]?.type;
+    if (columnType === "date" || columnType === "datetime") {
+      const parsedDate = parseGvizDateValue(cell.v);
+      if (parsedDate) return parsedDate;
+    }
     if (cell.v instanceof Date) return cell.v.toISOString();
+    if (cell.f != null) return toStringSafe(cell.f);
     return toStringSafe(cell.v);
   }));
   return { headers, rows };

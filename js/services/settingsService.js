@@ -1,6 +1,6 @@
-import { APP_CONFIG } from "../config/appConfig.js";
-import { FONT_LIMITS, getTemplateById } from "../config/templates.js";
-import { clamp } from "../utils/helpers.js";
+import { APP_CONFIG } from "../config/appConfig.js?v=30";
+import { FONT_LIMITS, getTemplateById } from "../config/templates.js?v=30";
+import { clamp } from "../utils/helpers.js?v=30";
 
 const memoryFallback = new Map();
 
@@ -27,7 +27,8 @@ function sanitizeTemplateSettings(templateId, value = {}) {
   const template = getTemplateById(templateId);
   return {
     nameFontSize: clamp(value.nameFontSize ?? template.defaults.nameFontSize, FONT_LIMITS.name.min, FONT_LIMITS.name.max),
-    contentFontSize: clamp(value.contentFontSize ?? template.defaults.contentFontSize, FONT_LIMITS.content.min, FONT_LIMITS.content.max)
+    contentFontSize: clamp(value.contentFontSize ?? template.defaults.contentFontSize, FONT_LIMITS.content.min, FONT_LIMITS.content.max),
+    boldText: Boolean(value.boldText ?? false)
   };
 }
 
@@ -82,7 +83,8 @@ export function resetTemplateSettings(settings, templateId) {
       ...(settings.byTemplate ?? {}),
       [template.id]: {
         nameFontSize: template.defaults.nameFontSize,
-        contentFontSize: template.defaults.contentFontSize
+        contentFontSize: template.defaults.contentFontSize,
+        boldText: false
       }
     }
   };

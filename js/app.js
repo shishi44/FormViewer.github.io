@@ -1,8 +1,8 @@
-import { getTemplateById } from "./config/templates.js";
-import { loadResponses, clearResponseCache } from "./services/responseService.js";
-import { loadSettings, getTemplateSettings, loadSelectedResponseId, saveSelectedResponseId } from "./services/settingsService.js";
-import { qs, setText, setHidden } from "./utils/dom.js";
-import { renderResponse, applyTemplateStylesheet } from "./ui/responseRenderer.js";
+import { getTemplateById } from "./config/templates.js?v=30";
+import { loadResponses, clearResponseCache } from "./services/responseService.js?v=30";
+import { loadSettings, getTemplateSettings, loadSelectedResponseId, saveSelectedResponseId } from "./services/settingsService.js?v=30";
+import { qs, setText, setHidden } from "./utils/dom.js?v=30";
+import { renderResponse, applyTemplateStylesheet } from "./ui/responseRenderer.js?v=30";
 
 const elements = {
   stylesheet: qs("#template-stylesheet"),
@@ -33,7 +33,8 @@ function renderCurrent() {
   renderResponse(elements.preview, response, {
     templateId: template.id,
     nameFontSize: Number(params.get("nameSize")) || values.nameFontSize,
-    contentFontSize: Number(params.get("contentSize")) || values.contentFontSize
+    contentFontSize: Number(params.get("contentSize")) || values.contentFontSize,
+    boldText: params.has("bold") ? params.get("bold") === "1" : values.boldText
   });
   elements.position.textContent = `${state.index + 1} / ${state.responses.length}`;
   elements.prev.disabled = state.index <= 0;
