@@ -17,5 +17,5 @@ document.addEventListener("click",event=>{if(event.target.closest(".template-opt
 document.addEventListener("input",event=>{if(event.target.closest("#name-font-control")||event.target.closest("#content-font-control"))publish({type:"settings"})});
 document.addEventListener("keydown",event=>{if(event.key==="ArrowLeft"||event.key==="ArrowRight")setTimeout(()=>publish({type:"selection",id:currentSelectedId()}),0)});
 previewContent?.addEventListener("scroll",()=>{if(scrollFrame)cancelAnimationFrame(scrollFrame);scrollFrame=requestAnimationFrame(()=>publish({type:"scroll",id:currentSelectedId(),top:previewContent.scrollTop}))},{passive:true});
-captureButton?.addEventListener("click",()=>{const url=new URL("./capture.html?v=31",location.href);window.open(url.toString(),"powaraji-format-capture","popup=yes,width=1040,height=720,resizable=yes,scrollbars=no")});
+captureButton?.addEventListener("click",()=>{const url=new URL("./capture.html?v=32",location.href);window.open(url.toString(),"powaraji-format-capture","popup=yes,width=1040,height=720,resizable=yes,scrollbars=no")});
 window.addEventListener("storage",event=>{if(event.key===SETTINGS_KEY)publish({type:"settings"})});
